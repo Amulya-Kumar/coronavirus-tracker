@@ -5,27 +5,18 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:google_maps/google_maps.dart' as maps;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Coronavirus Tracker',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Coronavirus Tracker'),
@@ -36,16 +27,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -157,205 +138,610 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       body: Center(
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Container(
-                  child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: SizedBox(
-                      width: 100,
-                      child: Image(
-                          image: NetworkImage(
-                              'https://a.omappapi.com/users/f51ab56e82fa/images/55b8ded81cec1583268204-coronavirus.png')),
+        child: ScreenTypeLayout(
+          breakpoints:
+              ScreenBreakpoints(tablet: 600, desktop: 1200, watch: 300),
+          desktop: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Container(
+                    child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SizedBox(
+                        width: 100,
+                        child: Image(
+                            image: NetworkImage(
+                                'https://a.omappapi.com/users/f51ab56e82fa/images/55b8ded81cec1583268204-coronavirus.png')),
+                      ),
                     ),
-                  ),
-                  Text(
-                    'CoronaVirus Tracker'.toUpperCase(),
-                    style: GoogleFonts.openSans(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 3),
-                  ),
-                  !isData
-                      ? CircularProgressIndicator()
+                    Text(
+                      'CoronaVirus Tracker'.toUpperCase(),
+                      style: GoogleFonts.openSans(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 3),
+                    ),
+                    !isData
+                        ? CircularProgressIndicator()
+                        : Container(
+                            padding: EdgeInsets.only(top: 30.0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Total cases: ',
+                                          style: GoogleFonts.openSans(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          worldToJSON['total_cases'],
+                                          style: GoogleFonts.openSans(
+                                              fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Total Deaths: ',
+                                          style: GoogleFonts.openSans(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          worldToJSON['total_deaths'],
+                                          style: GoogleFonts.openSans(
+                                              fontSize: 20,
+                                              color: Colors.redAccent),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Total Recovered: ',
+                                          style: GoogleFonts.openSans(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(worldToJSON['total_recovered'],
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 20,
+                                                color: Colors.green))
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: CircleAvatar(
+                                    backgroundColor: Color(0xffffcdd2),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: Text('0 - 100',
+                                      style:
+                                          GoogleFonts.openSans(fontSize: 18)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: CircleAvatar(
+                                    backgroundColor: Color(0xffef9a9a),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: Text('100 - 1000',
+                                      style:
+                                          GoogleFonts.openSans(fontSize: 18)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: CircleAvatar(
+                                    backgroundColor: Color(0xfff44336),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: Text('1000 - 10000',
+                                      style:
+                                          GoogleFonts.openSans(fontSize: 18)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: CircleAvatar(
+                                    backgroundColor: Color(0xffb71c1c),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: Text('10000+',
+                                      style:
+                                          GoogleFonts.openSans(fontSize: 18)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
+              ),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  child: !isData
+                      ? SizedBox()
                       : Container(
-                          padding: EdgeInsets.only(top: 30.0),
+                          child: getMap(darkAffect, medAffect, lowAffect,
+                              newAffect, convertToJSON),
+                        ),
+                ),
+              )
+            ],
+          ),
+          mobile: Container(
+            child: !isData
+                ? CircularProgressIndicator()
+                : Stack(
+                    children: <Widget>[
+                      Container(
+                        child: getMap(darkAffect, medAffect, lowAffect,
+                            newAffect, convertToJSON),
+                      ),
+                      Positioned(
+                        right: 10,
+                        top: 10,
+                        child: Container(
+                          height: 180,
+                          width: 140,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5)),
                           child: Padding(
-                            padding: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsets.all(10.0),
                             child: Column(
                               children: <Widget>[
+                                Text(
+                                  'Coronavirus Tracker'.toUpperCase(),
+                                  style: GoogleFonts.openSans(
+                                      fontSize: 9, fontWeight: FontWeight.bold),
+                                ),
+                                Divider(),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 10, 5, 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                  padding: const EdgeInsets.only(left: 4.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(
-                                        'Total cases: ',
-                                        style: GoogleFonts.openSans(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Total Cases: ',
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            worldToJSON['total_cases'],
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9),
+                                          )
+                                        ],
                                       ),
-                                      Text(
-                                        worldToJSON['total_cases'],
-                                        style:
-                                            GoogleFonts.openSans(fontSize: 20),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Total Deaths: ',
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            worldToJSON['total_deaths'],
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9,
+                                                color: Colors.redAccent),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Total Recovered: ',
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            worldToJSON['total_recovered'],
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9,
+                                                color: Colors.green),
+                                          )
+                                        ],
                                       ),
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 10, 5, 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'Total Deaths: ',
-                                        style: GoogleFonts.openSans(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                Divider(),
+                                Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 2,
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Color(0xffffcdd2),
+                                              maxRadius: 7,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 4,
+                                            child: Text('0 - 100',
+                                                style: GoogleFonts.openSans(
+                                                    fontSize: 8)),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        worldToJSON['total_deaths'],
-                                        style:
-                                            GoogleFonts.openSans(fontSize: 20),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 10, 5, 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'Total Recovered: ',
-                                        style: GoogleFonts.openSans(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 2,
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Color(0xffef9a9a),
+                                              maxRadius: 7,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 4,
+                                            child: Text('100 - 1000',
+                                                style: GoogleFonts.openSans(
+                                                    fontSize: 8)),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        worldToJSON['total_recovered'],
-                                        style:
-                                            GoogleFonts.openSans(fontSize: 20),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 2,
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Color(0xfff44336),
+                                              maxRadius: 7,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 4,
+                                            child: Text('1000 - 10000',
+                                                style: GoogleFonts.openSans(
+                                                    fontSize: 8)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 2,
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Color(0xffb71c1c),
+                                              maxRadius: 7,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 4,
+                                            child: Text('10000+',
+                                                style: GoogleFonts.openSans(
+                                                    fontSize: 8)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
                         ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                flex: 2,
-                                child: CircleAvatar(
-                                  backgroundColor: Color(0xffffcdd2),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 4,
-                                child: Text('0 - 100',style:
-                                            GoogleFonts.openSans(fontSize: 18)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                flex: 2,
-                                child: CircleAvatar(
-                                  backgroundColor: Color(0xffef9a9a),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 4,
-                                child: Text('100 - 1000',style:
-                                            GoogleFonts.openSans(fontSize: 18)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                flex: 2,
-                                child: CircleAvatar(
-                                  backgroundColor: Color(0xfff44336),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 4,
-                                child: Text('1000 - 10000',style:
-                                            GoogleFonts.openSans(fontSize: 18)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                flex: 2,
-                                child: CircleAvatar(
-                                  backgroundColor: Color(0xffb71c1c),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 4,
-                                child: Text('10000+',style:
-                                            GoogleFonts.openSans(fontSize: 18)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                ],
-              )),
-            ),
-            Expanded(
-              flex: 3,
-              child: Container(
-                child: !isData
-                    ? SizedBox()
-                    : getMap(darkAffect, medAffect, lowAffect, newAffect,
-                        convertToJSON),
-              ),
-            )
-          ],
+          ),
+          tablet: Container(
+            child: !isData
+                ? CircularProgressIndicator()
+                : Stack(
+                    children: <Widget>[
+                      Container(
+                        child: getMap(darkAffect, medAffect, lowAffect,
+                            newAffect, convertToJSON),
+                      ),
+                      Positioned(
+                        right: 10,
+                        top: 10,
+                        child: Container(
+                          height: 180,
+                          width: 140,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  'Coronavirus Tracker'.toUpperCase(),
+                                  style: GoogleFonts.openSans(
+                                      fontSize: 9, fontWeight: FontWeight.bold),
+                                ),
+                                Divider(),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 4.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Total Cases: ',
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            worldToJSON['total_cases'],
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Total Deaths: ',
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            worldToJSON['total_deaths'],
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9,
+                                                color: Colors.redAccent),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Total Recovered: ',
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            worldToJSON['total_recovered'],
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 9,
+                                                color: Colors.green),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Divider(),
+                                Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 2,
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Color(0xffffcdd2),
+                                              maxRadius: 7,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 4,
+                                            child: Text('0 - 100',
+                                                style: GoogleFonts.openSans(
+                                                    fontSize: 8)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 2,
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Color(0xffef9a9a),
+                                              maxRadius: 7,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 4,
+                                            child: Text('100 - 1000',
+                                                style: GoogleFonts.openSans(
+                                                    fontSize: 8)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 2,
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Color(0xfff44336),
+                                              maxRadius: 7,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 4,
+                                            child: Text('1000 - 10000',
+                                                style: GoogleFonts.openSans(
+                                                    fontSize: 8)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 2,
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Color(0xffb71c1c),
+                                              maxRadius: 7,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 4,
+                                            child: Text('10000+',
+                                                style: GoogleFonts.openSans(
+                                                    fontSize: 8)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+          ),
         ),
       ),
     );
@@ -368,7 +754,7 @@ Widget getMap(List darkAffect, List medAffect, List lowAffect, List newAffect,
   //ignore: undefined_prefixed_name
   ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
     final mapOptions = new maps.MapOptions()
-      ..zoom = 2
+      ..zoom = 3
       ..mapTypeControl = false
       ..maxZoom = 6
       ..minZoom = 2
@@ -493,6 +879,15 @@ Widget getMap(List darkAffect, List medAffect, List lowAffect, List newAffect,
       }
     }
 
+    /*
+    maps.LatLngBounds allowedBounds = maps.LatLngBounds(
+      maps.LatLng(70.33956792419954, 178.01171875), 
+      maps.LatLng(83.86483689701898, -88.033203125)
+    );
+    var lastValidCenter = map.center;
+    map.addListener('center_changed', (){
+      allowedBounds.contains(map.center) ? lastValidCenter = map.center : map.panTo(lastValidCenter);
+    });*/
     map.data.style = styleFeature;
     var x;
     map.data.onMouseover.listen((event) {

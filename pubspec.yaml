@@ -28,6 +28,7 @@ dependencies:
   html: ^0.14.0+3
   http: ^0.12.0+4
   google_fonts: ^0.3.10
+  responsive_builder: ^0.1.5
 
 dev_dependencies:
   flutter_test:
