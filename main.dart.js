@@ -24233,7 +24233,7 @@ ge2:function(){return C.qw}}
 R.H5.prototype={
 p:function(a){return R.a4N(a,0,J.aY(a))}}
 F.w2.prototype={
-S:function(a){return new S.oG(new F.oT(null),"Flutter Demo",X.Xm(null,C.kJ),!1,null)}}
+S:function(a){return new S.oG(new F.oT(null),"Coronavirus Tracker",X.Xm(null,C.kJ),!1,null)}}
 F.oT.prototype={
 aQ:function(){var t=u.N
 return new F.AG(P.b8(["The Bahamas","Bahamas","Saint Barthelemy","St. Barth","Turks and Caicos Islands","Turks and Caicos","Saint Vincent and the Grenadines","St. Vincent Grenadines","United States Virgin Islands","U.S. Virgin Islands","United States of America","USA","United Arab Emirates","UAE","Hong Kong S.A.R.","Hong Kong","South Korea","S. Korea","Macao S.A.R","Macao","East Timor","Timor-Leste","Democratic Republic of the Congo","Congo","Central African Republic","CAR","Cape Verde","Cabo Verde","Macedonia","North Macedonia","Czech Republic","Czechia","Faroe Islands","Faeroe Islands","United Kingdom","UK","Republic of Serbia","Serbia"],t,t),C.q)}}
