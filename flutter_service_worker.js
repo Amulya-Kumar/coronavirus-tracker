@@ -2,7 +2,7 @@
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "/index.html": "08c8630f795930895a5760b66a327c98",
-"/main.dart.js": "a2f81994dbc751222c950c410d6b9a32",
+"/main.dart.js": "d8559f01e3042fc2e4408c0b9674656e",
 "/favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "/icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "/icons/coronavirus.png": "86fd05f591c5e33d15c9a5d703d65c6c",

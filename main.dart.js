@@ -24353,7 +24353,7 @@ t=3
 return P.ad(G.ZE(P.t0(C.cA,"https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php",C.F,!1),P.be(["x-rapidapi-host","coronavirus-monitor.p.rapidapi.com","x-rapidapi-key","44c8af8b2emshccc4e722fb55ec4p1b159cjsn5beb99ca8b05"],p,p)),$async$iF)
 case 3:n=b
 t=4
-return P.ad(G.ZE(P.t0(C.cA,"https://coronavirus-monitor.p.rapidapi.com/coronavirus/worldstat.php",C.F,!1),P.be(["x-rapidapi-host","coronavirus-monitor.p.rapidapi.com","x-rapidapi-key","44c8af8b2emshccc4e722fb55ec4p1b159cjsn5beb99ca8b05"],p,p)),$async$iF)
+return P.ad(G.ZE(P.t0(C.cA,"https://coronavirus-monitor.p.rapidapi.com/coronavirus/world_total_stat.php",C.F,!1),P.be(["x-rapidapi-host","coronavirus-monitor.p.rapidapi.com","x-rapidapi-key","44c8af8b2emshccc4e722fb55ec4p1b159cjsn5beb99ca8b05"],p,p)),$async$iF)
 case 4:q.aP(new o.PI(q,n,b))
 r="Success!"
 t=1
