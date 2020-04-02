@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
       "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php";
 
   final String worldUrl =
-      "https://coronavirus-monitor.p.rapidapi.com/coronavirus/world_total_stat.php";
+      "https://coronavirus-monitor.p.rapidapi.com/coronavirus/worldstat.php";
 
   bool isData = false;
   List darkAffect, medAffect, lowAffect, newAffect;
